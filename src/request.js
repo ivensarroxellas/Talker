@@ -10,7 +10,7 @@ const getAllTalkers = async () => {
 
 const getOneTalker = async (id) => {
   const response = await readFile(resolve(__dirname, './talker.json'), 'utf8');
-  const talker = JSON.parse(response).filter((item) => +item.id === +id);
+  const talker = JSON.parse(response).find((item) => +item.id === +id);
   return talker;
 };
 

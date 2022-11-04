@@ -26,5 +26,9 @@ app.get('/talker', async (_req, res) => {
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const talker = await getOneTalker(id);
-  res.status(HTTP_OK_STATUS).json(talker);
+  console.log(talker);
+  if (!talker) {
+    res.status(404).json({message: 'Pessoa palestrante não encontrada'});
+  } 
+    res.status(HTTP_OK_STATUS).json(talker);
 });

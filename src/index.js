@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllTalkers, getOneTalker, getToken, addTalker } = require('./request');
+const { getAllTalkers, getOneTalker, getToken, addTalker, editTalker } = require('./request');
 const { emailVerify, passwordVerify } = require('./LoginVerify');
 const { tokenVerify, nameVerify, ageVerify, talkVerify,
    watchedAtVerify, rateVerify } = require('./tokenValidation');
@@ -40,6 +40,13 @@ app.get('/talker/:id', async (req, res) => {
     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   } 
     res.status(200).json(talker);
+});
+
+app.put('/talker/:id', tokenVerify, nameVerify, ageVerify, talkVerify,
+watchedAtVerify, rateVerify, async (req, res) => {
+  const { params: { id }, body } = req;
+  const retorno = await editTalker(id, body);
+  res.status(200).json(retorno);
 });
 
 app.post('/login', emailVerify, passwordVerify, async (_req, res) => {

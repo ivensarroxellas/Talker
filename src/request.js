@@ -30,9 +30,22 @@ const addTalker = async (talker) => {
   return newTalkerData[newTalkerData.length - 1];
 };
 
+const editTalker = async (id, body) => {
+  const talkers = await getAllTalkers();
+  const talkersIndex = talkers.findIndex((talker) => Number(talker.id) === Number(id));
+  talkers[talkersIndex] = {
+    id: Number(id),
+    ...body,
+  };
+  const newTalkerJSON = JSON.stringify(talkers, null, 2);
+  await writeFile(resolve(__dirname, 'talker.json'), newTalkerJSON);
+  return talkers[talkersIndex];
+};
+
 module.exports = {
   getAllTalkers,
   getOneTalker,
   getToken,
   addTalker,
+  editTalker,
 };

@@ -1,7 +1,6 @@
 const { readFile, writeFile } = require('fs').promises;
 const { resolve } = require('path');
 const crypto = require('crypto');
-const { Console } = require('console');
 
 const getAllTalkers = async () => {
   const response = await readFile(resolve(__dirname, './talker.json'), 'utf8');
@@ -28,7 +27,6 @@ const addTalker = async (talker) => {
   const newTalkerData = [...oldTalkers, addNewTalker];
   const newJSON = JSON.stringify(newTalkerData, null, 2);
   await writeFile(resolve(__dirname, 'talker.json'), newJSON);
-  console.log(oldTalkers);
   return newTalkerData[newTalkerData.length - 1];
 };
 

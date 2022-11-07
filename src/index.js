@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { getAllTalkers, getOneTalker, getToken, addTalker } = require('./request');
 const { emailVerify, passwordVerify } = require('./LoginVerify');
-const { tokenVerify, nameVerify, ageVerify, talkVerify, watchedAtVerify, rateVerify } = require('./tokenValidation');
+const { tokenVerify, nameVerify, ageVerify, talkVerify,
+   watchedAtVerify, rateVerify } = require('./tokenValidation');
 
 const app = express();
 app.use(bodyParser.json());

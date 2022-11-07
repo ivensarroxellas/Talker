@@ -34,7 +34,5 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', emailVerify, passwordVerify, async (_req, res) => {
-  if (!emailVerify) {
     res.status(200).json(await getToken());
-  }
 });

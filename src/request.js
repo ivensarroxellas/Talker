@@ -2,14 +2,16 @@ const { readFile, writeFile } = require('fs').promises;
 const { resolve } = require('path');
 const crypto = require('crypto');
 
+const PATH = 'talker.json';
+
 const getAllTalkers = async () => {
-  const response = await readFile(resolve(__dirname, './talker.json'), 'utf8');
+  const response = await readFile(resolve(__dirname, PATH), 'utf8');
   const talkers = JSON.parse(response);
   return talkers;
 };
 
 const getOneTalker = async (id) => {
-  const response = await readFile(resolve(__dirname, './talker.json'), 'utf8');
+  const response = await readFile(resolve(__dirname, PATH), 'utf8');
   const talker = JSON.parse(response).find((item) => +item.id === +id);
   return talker;
 };
@@ -26,7 +28,7 @@ const addTalker = async (talker) => {
   const addNewTalker = { id: takeNewId, ...talker };
   const newTalkerData = [...oldTalkers, addNewTalker];
   const newJSON = JSON.stringify(newTalkerData, null, 2);
-  await writeFile(resolve(__dirname, 'talker.json'), newJSON);
+  await writeFile(resolve(__dirname, PATH), newJSON);
   return newTalkerData[newTalkerData.length - 1];
 };
 
@@ -38,8 +40,16 @@ const editTalker = async (id, body) => {
     ...body,
   };
   const newTalkerJSON = JSON.stringify(talkers, null, 2);
-  await writeFile(resolve(__dirname, 'talker.json'), newTalkerJSON);
+  await writeFile(resolve(__dirname, PATH), newTalkerJSON);
   return talkers[talkersIndex];
+};
+
+const deleteTalker = async (id) => {
+  const talkers = await getAllTalkers();
+  const talkerFilter = talkers.filter((element) => Number(element.id) !== Number(id));
+  const newJSON = JSON.stringify(talkerFilter, null, 2);
+  await writeFile(resolve(__dirname, PATH), newJSON);
+  return talkerFilter;
 };
 
 module.exports = {
@@ -48,4 +58,5 @@ module.exports = {
   getToken,
   addTalker,
   editTalker,
+  deleteTalker,
 };

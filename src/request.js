@@ -1,6 +1,6 @@
 const { readFile } = require('fs').promises;
 const { resolve } = require('path');
-
+const crypto = require('crypto');
 
 const getAllTalkers = async () => {
   const response = await readFile(resolve(__dirname, './talker.json'), 'utf8');
@@ -14,7 +14,13 @@ const getOneTalker = async (id) => {
   return talker;
 };
 
+const getToken = async () => {
+  const result = { token: crypto.randomBytes(8).toString('hex') };
+  return result;
+};
+
 module.exports = {
   getAllTalkers,
   getOneTalker,
-}
+  getToken,
+};
